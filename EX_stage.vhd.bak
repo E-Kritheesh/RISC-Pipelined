@@ -1,0 +1,19 @@
+library ieee;
+use ieee.std_logic_1164.all;
+library work;
+use work.all;
+
+entity EX_stage is
+	port();
+end entity;
+
+architecture EX_arch of EX_stage is
+	signal
+	
+	component alu is
+		port(flag_change: in std_logic;
+			  opr1, opr2: in std_logic_vector(15 downto 0):=(others=>'0');
+			  func: in std_logic_vector(1 downto 0):=(others=>'1');
+			  cf, zf: out std_logic:=('1');
+			  alu_out: out std_logic_vector(15 downto 0):=(others=>'0'));
+	end component;

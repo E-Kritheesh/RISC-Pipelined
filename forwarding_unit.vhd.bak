@@ -1,0 +1,19 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity forwarding_unit is
+	port(
+	EXE_MEM_ALUout,MEM_WB_ALUout,IF_ID_IR: in std_logic_vector(15 downto 0);
+	ALUA_out,ALUB_out,MEM_out: out std_logic_vector(15 downto 0));
+end entity;
+
+architecture forwarding_unit_arch of forwarding_unit is
+begin
+	signal IR1,IR2,IR3: std_logic_vector(15 downto 0):=("0000000000000000");
+	process()
+	begin
+	
+	end process;
+end architecture;
+	

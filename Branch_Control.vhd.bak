@@ -1,0 +1,18 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use work.all;
+use ieee.numeric_std.all;
+
+entity Branch_Control is
+	port(clock, history_bit: in std_logic;
+		  output_bit: out std_logic);
+end entity;
+
+architecture branch_control_arch of Branch_Control is
+
+begin
+	process()
+	begin
+	
+	end process;
+end architecture;

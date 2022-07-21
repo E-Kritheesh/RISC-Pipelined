@@ -1,0 +1,60 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity WB_Stage is
+	port(WB_EN: in std_logic;
+		  LS7_in,ALUout_in,DR_in,PCn_in: in std_logic_vector(15 downto 0);
+		  OP_in: in std_logic_vector(3 downto 0);
+		  D113_in: in std_logic_vector(8 downto 0);
+		  D3_out: out std_logic_vector(15 downto 0);
+		  OP_out: out std_logic_vector(3 downto 0);
+		  A3_out: out std_logic_vector(11 downto 0));
+end entity;
+
+architecture WB_Stage_Arch of WB_Stage is
+	signal sig_d3: std_logic_vector(1 downto 0):=(others=>'0');
+begin
+	process(WB_EN, OP_in)
+	begin
+		if OP_in = "0000" then
+			sig_d3 <= "00";
+		elsif (OP_in = "0001" or OP_in = "0010" or OP_in = "0011") then
+			sig_d3 <= "10";
+		elsif (OP_in = "0111" or OP_in = "1100") then
+			sig_d3 <= "01";
+		elsif (OP_in = "1001" or OP_in = "1010") then
+			sig_d3 <= "11";
+		end if;
+	end process;
+
+	process(WB_EN,LS7_in,ALUout_in,DR_in,PCn_in,OP_in,D113_in)
+	begin 
+		if WB_EN = '1' then
+			if sig_d3 ="00" then 
+				D3_out <= LS7_in;
+			elsif sig_d3 = "01" then
+				D3_out <= DR_in;
+			elsif sig_d3 = "10" then
+				D3_out <= ALUout_in;
+			else
+				D3_out <= PCn_in;
+			end if;
+			A3_out(8 downto 6) <= D113_in(11 downto 9);
+			A3_out(5 downto 3) <= D113_in(8 downto 6);
+			A3_out(2 downto 0) <= D113_in(5 downto 3);
+			if OP_in = "0000" or OP_in="0111" or OP_in= "1010" or OP_in = "1001" then
+				A3_out(11 downto 9) <= "100";               ---- 11 to 9 -> 00, 8 to 6 -> 01, 5 to 3 -> 10
+			elsif OP_in = "0011" then
+				A3_out(11 downto 9) <= "101";
+			elsif OP_in = "0001" or OP_in="0010"  then
+				A3_out(11 downto 9) <= "110";
+			else
+				A3_out(11 downto 9) <= "000";
+			end if;
+		else
+			null;
+		end if;
+	end process;
+end architecture;
+			

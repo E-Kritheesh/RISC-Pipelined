@@ -1,0 +1,17 @@
+library ieee;
+use ieee.std_logic_1164.all;
+library work;
+use work.all;
+
+entity ID_stage is
+	port(IR, PC, PCn_in: in std_logic_vector(15 downto 0);
+		  LS7, SE7, SE10, PCimm, PCn_out: out std_logic_vector(15 downto 0);
+		  D70: out std_logic_vector(7 downto 0);
+		  D86, D119: out std_logic_vector(2 downto 0);
+		  OP: out std_logic_vector(3 downto 0));
+end entity;
+
+architecture ID_arch of ID_stage is
+	signal s_id_mux: std_logic;
+begin
+	
